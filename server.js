@@ -1,4 +1,4 @@
-const express = require('express')  // We import the express application
+const express = require('express') // We import the express application
 const cors = require('cors') // Necessary for localhost
 const app = express() // Creates an express application in app
 
@@ -20,19 +20,18 @@ app.use(express.json())
  * country: a string, the name of the country
  * conversionRate: the amount, in that currency, required to equal 1 Canadian dollar
  */
-let currencies = [
-  {
-    id: 1,
-    currencyCode: "CDN",
-    country: "Canada",
-    conversionRate: 1
-  },
-  {
-    id: 2,
-    currencyCode: "USD",
-    country: "United States of America",
-    conversionRate: 0.75
-  }
+let currencies = [{
+        id: 1,
+        currencyCode: "CDN",
+        country: "Canada",
+        conversionRate: 1
+    },
+    {
+        id: 2,
+        currencyCode: "USD",
+        country: "United States of America",
+        conversionRate: 0.75
+    }
 ]
 
 /**
@@ -41,7 +40,7 @@ let currencies = [
  * @responds with the string 'Hello World!'
  */
 app.get('/', (request, response) => {
-  response.send('Hello World!')
+    response.send('Hello World!')
 })
 
 /**
@@ -50,7 +49,7 @@ app.get('/', (request, response) => {
  * @responds with returning the data as a JSON
  */
 app.get('/api/currency/', (request, response) => {
-  response.json(currencies)
+    response.json(currencies)
 })
 
 /**
@@ -58,9 +57,10 @@ app.get('/api/currency/', (request, response) => {
  * @receives a get request to the URL: http://localhost:3001/api/currency/:id
  * @responds with returning specific data as a JSON
  */
-app.get('...', (request, response) => {
-
-
+app.get('/api/currency/:id', (request, response) => {
+    const id = parseInt(request.params.id);
+    const curr = currencies.find((x) => x.id === id);
+    response.json(curr);
 })
 
 /**
@@ -69,9 +69,18 @@ app.get('...', (request, response) => {
  * with data object enclosed
  * @responds by returning the newly created resource
  */
-app.post('...', (request, response) => {
+app.post('/api/currency', (request, response) => {
+    const { currencyCode, country, conversionRate } = request.body;
 
+    const newCurrency = {
+        id: currencies.length + 1,
+        currencyCode,
+        country,
+        conversionRate,
+    }
 
+    currencies.push(newCurrency);
+    response.status(201).json(newCurrency);
 })
 
 /**
@@ -81,8 +90,18 @@ app.post('...', (request, response) => {
  * Hint: updates the currency with the new conversion rate
  * @responds by returning the newly updated resource
  */
-app.put('...', (request, response) => {
-  
+app.put('/api/currency/:id', (request, response) => {
+    const id = parseInt(request.params.id);
+    const { newRate } = request.body;
+
+    const updatedCurriency = currencies.map((x) => {
+        if (x.id === id) {
+            return {...x, conversionRate: newRate };
+        }
+        return x;
+    })
+
+    response.json(updatedCurriency.find((x) => x.id === id));
 })
 
 /**
@@ -90,12 +109,14 @@ app.put('...', (request, response) => {
  * @receives a delete request to the URL: http://localhost:3001/api/currency/:id,
  * @responds by returning a status code of 204
  */
-app.post('...', (request, response) => {
+app.delete('/api/currency/:id', (request, response) => {
+    const id = parseInt(request.params.id);
 
-
+    const updatedCurrencies = currencies.filter((x) => x.id !== id);
+    response.status(204).json(updatedCurrencies);
 })
 
 const PORT = 3001
 app.listen(PORT, () => {
-  console.log(`Server running on port: ${PORT}`)
+    console.log(`Server running on port: ${PORT}`)
 })

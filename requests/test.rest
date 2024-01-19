@@ -1,1 +1,27 @@
 GET http://localhost:3001/api/currency/
+
+###
+
+GET http://localhost:3001/api/currency/1
+
+###
+
+POST http://localhost:3001/api/currency/
+
+{
+    "currencyCode": "SAR",
+    "country": "SAUDI ARABIA",
+    "conversionRate": 2.78
+}
+
+###
+
+PUT http://localhost:3001/api/currency/2
+
+{
+    "conversionRate": 0.5
+}
+
+###
+
+DELETE http://localhost:3001/api/currency/2
