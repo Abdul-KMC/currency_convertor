@@ -131,6 +131,11 @@ app.delete('/api/currency/:id', (request, response) => {
     response.status(204).json(updatedCurrencies);
 })
 
+// Unknown endpoint
+app.use((request, response) => {
+    response.status(404).json({ error: 'unknown endpoint' });
+});
+
 const PORT = 3001
 app.listen(PORT, () => {
     console.log(`Server running on port: ${PORT}`)
