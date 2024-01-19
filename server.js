@@ -59,8 +59,13 @@ app.get('/api/currency/', (request, response) => {
  */
 app.get('/api/currency/:id', (request, response) => {
     const id = parseInt(request.params.id);
-    const curr = currencies.find((x) => x.id === id);
-    response.json(curr);
+    const currency = currencies.find((x) => x.id === id);
+
+    if (currency) {
+        response.json(currency);
+    } else {
+        response.status(404).json({ error: 'resource not found' });
+    }
 })
 
 /**
@@ -72,12 +77,17 @@ app.get('/api/currency/:id', (request, response) => {
 app.post('/api/currency', (request, response) => {
     const { currencyCode, country, conversionRate } = request.body;
 
+    if (!currencyCode || !country || conversionRate === undefined) {
+        response.status(400).json({ error: 'content missing' });
+        return;
+    }
+
     const newCurrency = {
         id: currencies.length + 1,
         currencyCode,
         country,
         conversionRate,
-    }
+    };
 
     currencies.push(newCurrency);
     response.status(201).json(newCurrency);
@@ -94,14 +104,19 @@ app.put('/api/currency/:id', (request, response) => {
     const id = parseInt(request.params.id);
     const { newRate } = request.body;
 
-    const updatedCurriency = currencies.map((x) => {
+    if (isNaN(newRate)) {
+        response.status(400).json({ error: 'invalid new rate' });
+        return;
+    }
+
+    const updatedCurrencies = currencies.map((x) => {
         if (x.id === id) {
             return {...x, conversionRate: newRate };
         }
         return x;
-    })
+    });
 
-    response.json(updatedCurriency.find((x) => x.id === id));
+    response.json(updatedCurrencies.find((x) => x.id === id));
 })
 
 /**
