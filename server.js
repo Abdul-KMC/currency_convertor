@@ -104,7 +104,7 @@ app.post('/api/currency', (request, response) => {
  */
 app.put('/api/currency/:id/:newRate', (request, response) => {
     const id = Number(request.params.id);
-    const newRate = request.params.newRate;
+    const newRate = Number(request.params.newRate);
 
     if (isNaN(newRate)) {
         response.status(400).json({ error: 'invalid new rate' });
