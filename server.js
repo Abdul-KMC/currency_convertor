@@ -1,5 +1,6 @@
 const express = require('express') // We import the express application
 const cors = require('cors') // Necessary for localhost
+const morgan = require('morgan');
 const app = express() // Creates an express application in app
 
 /**
@@ -9,6 +10,7 @@ const app = express() // Creates an express application in app
  */
 app.use(cors())
 app.use(express.json())
+app.use(morgan('dev'));
 
 
 /**
@@ -58,7 +60,7 @@ app.get('/api/currency/', (request, response) => {
  * @responds with returning specific data as a JSON
  */
 app.get('/api/currency/:id', (request, response) => {
-    const id = parseInt(request.params.id);
+    const id = Number(request.params.id);
     const currency = currencies.find((x) => x.id === id);
 
     if (currency) {
@@ -101,7 +103,7 @@ app.post('/api/currency', (request, response) => {
  * @responds by returning the newly updated resource
  */
 app.put('/api/currency/:id', (request, response) => {
-    const id = parseInt(request.params.id);
+    const id = Number(request.params.id);
     const { newRate } = request.body;
 
     if (isNaN(newRate)) {
@@ -125,15 +127,16 @@ app.put('/api/currency/:id', (request, response) => {
  * @responds by returning a status code of 204
  */
 app.delete('/api/currency/:id', (request, response) => {
-    const id = parseInt(request.params.id);
+    const id = Number(request.params.id);
 
     const updatedCurrencies = currencies.filter((x) => x.id !== id);
-    response.status(204).json(updatedCurrencies);
+    response.json(updatedCurrencies);
 })
 
 // Unknown endpoint
-app.use((request, response) => {
+app.use((request, response, next) => {
     response.status(404).json({ error: 'unknown endpoint' });
+    next();
 });
 
 const PORT = 3001

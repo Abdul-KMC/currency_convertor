@@ -7,6 +7,7 @@ GET http://localhost:3001/api/currency/2
 ###
 
 POST http://localhost:3001/api/currency/
+Content-Type: application/json
 
 {
     "currencyCode": "SAR",
@@ -17,6 +18,7 @@ POST http://localhost:3001/api/currency/
 ###
 
 PUT http://localhost:3001/api/currency/2
+Content-Type: application/json
 
 {
     "conversionRate": 0.5
