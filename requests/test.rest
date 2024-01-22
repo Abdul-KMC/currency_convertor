@@ -17,12 +17,7 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:3001/api/currency/2
-Content-Type: application/json
-
-{
-    "conversionRate": 0.5
-}
+PUT http://localhost:3001/api/currency/3/0.5
 
 ###
 

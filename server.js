@@ -102,9 +102,9 @@ app.post('/api/currency', (request, response) => {
  * Hint: updates the currency with the new conversion rate
  * @responds by returning the newly updated resource
  */
-app.put('/api/currency/:id', (request, response) => {
+app.put('/api/currency/:id/:newRate', (request, response) => {
     const id = Number(request.params.id);
-    const { newRate } = request.body;
+    const newRate = Number(request.params.newRate);
 
     if (isNaN(newRate)) {
         response.status(400).json({ error: 'invalid new rate' });
