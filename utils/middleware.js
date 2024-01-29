@@ -1,4 +1,5 @@
 const morgan = require('morgan');
+const customFormat = ':method :url :status :res[content-length] - :response-time ms { "content": ":req[content]" }';
 const morganMiddleware = morgan('combined');
 
 
