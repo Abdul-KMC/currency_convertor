@@ -1,4 +1,5 @@
 const express = require('express') // We import the express application
+require('dotenv').config();
 const currencyRouter = require('./routers/currency')
 const middleware = require('./utils/middleware')
 const cors = require('cors') // Necessary for localhost
