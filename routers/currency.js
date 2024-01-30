@@ -47,13 +47,21 @@ currencyRouter.get('/', (request, response) => {
  * @responds with returning specific data as a JSON
  */
 currencyRouter.get('/:id', (request, response) => {
-    const id = Number(request.params.id);
-    const currency = currencies.find((x) => x.id === id);
+    // const id = Number(request.params.id);
+    // const currency = currencies.find((x) => x.id === id);
 
-    if (currency) {
+    // if (currency) {
+    //     response.json(currency);
+    // } else {
+    //     response.status(404).json({ error: 'resource not found' });
+    // }
+    try {
+        const id = Number(request.params.id);
+        const currency = currencies.find((x) => x.id === id);
+        if (!currency) throw new Error('Resource not found');
         response.json(currency);
-    } else {
-        response.status(404).json({ error: 'resource not found' });
+    } catch (error) {
+        response.status(404).json({ error: error.message });
     }
 })
 
@@ -64,22 +72,41 @@ currencyRouter.get('/:id', (request, response) => {
  * @responds by returning the newly created resource
  */
 currencyRouter.post('/', (request, response) => {
-    const { currencyCode, country, conversionRate } = request.body;
+    // const { currencyCode, country, conversionRate } = request.body;
 
-    if (!currencyCode || !country || conversionRate === undefined) {
-        response.status(400).json({ error: 'content missing' });
-        return;
+    // if (!currencyCode || !country || conversionRate === undefined) {
+    //     response.status(400).json({ error: 'content missing' });
+    //     return;
+    // }
+
+    // const newCurrency = {
+    //     id: currencies.length + 1,
+    //     currencyCode,
+    //     country,
+    //     conversionRate,
+    // };
+
+    // currencies.push(newCurrency);
+    // response.status(201).json(newCurrency);
+    try {
+        const { currencyCode, country, conversionRate } = request.body;
+
+        if (!currencyCode || !country || conversionRate === undefined) {
+            throw new Error('Content missing');
+        }
+
+        const newCurrency = {
+            id: currencies.length + 1,
+            currencyCode,
+            country,
+            conversionRate,
+        };
+
+        currencies.push(newCurrency);
+        response.status(201).json(newCurrency);
+    } catch (error) {
+        response.status(400).json({ error: error.message });
     }
-
-    const newCurrency = {
-        id: currencies.length + 1,
-        currencyCode,
-        country,
-        conversionRate,
-    };
-
-    currencies.push(newCurrency);
-    response.status(201).json(newCurrency);
 })
 
 /**
@@ -116,8 +143,9 @@ currencyRouter.put('/:id/:newRate', (request, response) => {
 currencyRouter.delete('/:id', (request, response) => {
     const id = Number(request.params.id);
 
-    const updatedCurrencies = currencies.filter((x) => x.id !== id);
-    response.json(updatedCurrencies);
+    // const updatedCurrencies = currencies.filter((x) => x.id !== id);
+    // response.json(updatedCurrencies);
+    response.status(204).json({ success: "content not found" });
 })
 
 module.exports = currencyRouter
