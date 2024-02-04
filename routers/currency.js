@@ -1,5 +1,5 @@
 const currencyRouter = require('express').Router()
-    // const currencies = require('../models/currency');
+const currencies = require('../models/currency');
 
 /**
  * DATA STORAGE
@@ -10,19 +10,19 @@ const currencyRouter = require('express').Router()
  * country: a string, the name of the country
  * conversionRate: the amount, in that currency, required to equal 1 Canadian dollar
  */
-let currencies = [{
-        id: 1,
-        currencyCode: "CDN",
-        country: "Canada",
-        conversionRate: 1
-    },
-    {
-        id: 2,
-        currencyCode: "USD",
-        country: "United States of America",
-        conversionRate: 0.75
-    }
-]
+// let currencies = [{
+//         id: 1,
+//         currencyCode: "CDN",
+//         country: "Canada",
+//         conversionRate: 1
+//     },
+//     {
+//         id: 2,
+//         currencyCode: "USD",
+//         country: "United States of America",
+//         conversionRate: 0.75
+//     }
+// ]
 
 /**
  * TESTING Endpoint (Completed)
@@ -39,7 +39,14 @@ let currencies = [{
  * @responds with returning the data as a JSON
  */
 currencyRouter.get('/', (request, response) => {
-    response.json(currencies)
+    // response.json(currencies)
+    try {
+        currencies.findAll().then((currency) => {
+            response.json(currencies)
+        })
+    } catch (error) {
+        response.status(404).json({ error: error.message });
+    }
 })
 
 /**

@@ -2,6 +2,7 @@ const express = require('express') // We import the express application
 require('dotenv').config();
 const currencyRouter = require('./routers/currency')
 const middleware = require('./utils/middleware')
+const sequelize = require('./config/sequelize')
 const cors = require('cors') // Necessary for localhost
 const app = express() // Creates an express application in app
 
@@ -20,6 +21,11 @@ app.use('/api/currency', currencyRouter);
 app.use(middleware.unknownHandler)
 
 const PORT = 3001
-app.listen(PORT, () => {
-    console.log(`Server running on port: ${PORT}`)
+sequelize.sync().then(() => {
+    console.log("connected to DB")
+    app.listen(PORT, () => {
+        console.log(`Server running on port: ${PORT}`)
+    }).catch((error) => {
+        console.error(error);
+    })
 })
