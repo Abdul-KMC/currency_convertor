@@ -38,14 +38,12 @@ const currencies = require('../models/currency');
  * @receives a get request to the URL: http://localhost:3001/api/currency/
  * @responds with returning the data as a JSON
  */
-currencyRouter.get('/', (request, response) => {
-    // response.json(currencies)
+currencyRouter.get('/', async(request, response) => {
     try {
-        currencies.findAll().then((currency) => {
-            response.json(currencies)
-        })
+        const allCurrencies = await Currency.findAll();
+        response.json(allCurrencies);
     } catch (error) {
-        response.status(404).json({ error: error.message });
+        response.status(500).json({ error: error.message });
     }
 })
 
@@ -54,19 +52,13 @@ currencyRouter.get('/', (request, response) => {
  * @receives a get request to the URL: http://localhost:3001/api/currency/:id
  * @responds with returning specific data as a JSON
  */
-currencyRouter.get('/:id', (request, response) => {
-    // const id = Number(request.params.id);
-    // const currency = currencies.find((x) => x.id === id);
-
-    // if (currency) {
-    //     response.json(currency);
-    // } else {
-    //     response.status(404).json({ error: 'resource not found' });
-    // }
+currencyRouter.get('/:id', async(request, response) => {
     try {
         const id = Number(request.params.id);
-        const currency = currencies.find((x) => x.id === id);
+        const currency = await Currency.findByPk(id);
+
         if (!currency) throw new Error('Resource not found');
+
         response.json(currency);
     } catch (error) {
         response.status(404).json({ error: error.message });
@@ -79,23 +71,7 @@ currencyRouter.get('/:id', (request, response) => {
  * with data object enclosed
  * @responds by returning the newly created resource
  */
-currencyRouter.post('/', (request, response) => {
-    // const { currencyCode, country, conversionRate } = request.body;
-
-    // if (!currencyCode || !country || conversionRate === undefined) {
-    //     response.status(400).json({ error: 'content missing' });
-    //     return;
-    // }
-
-    // const newCurrency = {
-    //     id: currencies.length + 1,
-    //     currencyCode,
-    //     country,
-    //     conversionRate,
-    // };
-
-    // currencies.push(newCurrency);
-    // response.status(201).json(newCurrency);
+currencyRouter.post('/', async(request, response) => {
     try {
         const { currencyCode, country, conversionRate } = request.body;
 
@@ -103,14 +79,12 @@ currencyRouter.post('/', (request, response) => {
             throw new Error('Content missing');
         }
 
-        const newCurrency = {
-            id: currencies.length + 1,
+        const newCurrency = await Currency.create({
             currencyCode,
             country,
             conversionRate,
-        };
+        });
 
-        currencies.push(newCurrency);
         response.status(201).json(newCurrency);
     } catch (error) {
         response.status(400).json({ error: error.message });
@@ -124,23 +98,23 @@ currencyRouter.post('/', (request, response) => {
  * Hint: updates the currency with the new conversion rate
  * @responds by returning the newly updated resource
  */
-currencyRouter.put('/:id/:newRate', (request, response) => {
-    const id = Number(request.params.id);
-    const newRate = Number(request.params.newRate);
+currencyRouter.put('/:id/:newRate', async(request, response) => {
+    try {
+        const id = Number(request.params.id);
+        const newRate = Number(request.params.newRate);
 
-    if (isNaN(newRate)) {
-        response.status(400).json({ error: 'invalid new rate' });
-        return;
-    }
-
-    const updatedCurrencies = currencies.map((x) => {
-        if (x.id === id) {
-            return {...x, conversionRate: newRate };
+        if (isNaN(newRate)) {
+            throw new Error('Invalid new rate');
         }
-        return x;
-    });
 
-    response.json(updatedCurrencies.find((x) => x.id === id));
+        const [updatedRowsCount, updatedCurrencies] = await Currency.update({ conversionRate: newRate }, { where: { id } });
+
+        if (updatedRowsCount === 0) throw new Error('Resource not found');
+
+        response.json(updatedCurrencies[0]);
+    } catch (error) {
+        response.status(400).json({ error: error.message });
+    }
 })
 
 /**
@@ -148,12 +122,17 @@ currencyRouter.put('/:id/:newRate', (request, response) => {
  * @receives a delete request to the URL: http://localhost:3001/api/currency/:id,
  * @responds by returning a status code of 204
  */
-currencyRouter.delete('/:id', (request, response) => {
-    const id = Number(request.params.id);
+currencyRouter.delete('/:id', async(request, response) => {
+    try {
+        const id = Number(request.params.id);
+        const deletedRowCount = await Currency.destroy({ where: { id } });
 
-    // const updatedCurrencies = currencies.filter((x) => x.id !== id);
-    // response.json(updatedCurrencies);
-    response.status(204).json({ success: "content not found" });
+        if (deletedRowCount === 0) throw new Error('Resource not found');
+
+        response.status(204).json({ success: "Content deleted successfully" });
+    } catch (error) {
+        response.status(404).json({ error: error.message });
+    }
 })
 
 module.exports = currencyRouter
