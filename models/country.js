@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/sequelize');
 
 
-const Currencies = sequelize.define('Currencies', {
+const Country = sequelize.define('Country', {
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -15,4 +15,4 @@ const Currencies = sequelize.define('Currencies', {
     }
 });
 
-module.exports = Currencies;
+module.exports = Country;

@@ -1,4 +1,4 @@
-GET http://localhost:3001/api/currency/
+GET http://localhost:3001/api/currency
 
 ###
 
@@ -6,7 +6,7 @@ GET http://localhost:3001/api/currency/2
 
 ###
 
-POST http://localhost:3001/api/currency/
+POST http://localhost:3001/api/currency
 Content-Type: application/json
 
 {
@@ -22,3 +22,20 @@ PUT http://localhost:3001/api/currency/3/0.5
 ###
 
 DELETE http://localhost:3001/api/currency/2
+
+###
+
+GET http://localhost:3001/api/country
+
+###
+
+POST http://localhost:3001/api/country
+Content-Type: application/json
+
+{
+    "name": "USA"
+}
+
+###
+
+DELETE http://localhost:3001/api/country/1
