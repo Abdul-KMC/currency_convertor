@@ -39,3 +39,7 @@ Content-Type: application/json
 ###
 
 DELETE http://localhost:3001/api/country/1
+
+###
+
+GET http://localhost:3001/api/currency-countryName
