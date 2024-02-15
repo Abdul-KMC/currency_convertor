@@ -7,7 +7,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.USER_NAME, proc
     dialectOptions: {
         ssl: {
             require: true,
-            rejectUnauthorized: true
+            rejectUnauthorized: false
         }
     }
 });
