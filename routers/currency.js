@@ -40,7 +40,7 @@ const currencies = require('../models/currency');
  */
 currencyRouter.get('/', async(request, response) => {
     try {
-        const allCurrencies = await Currency.findAll();
+        const allCurrencies = await currencies.findAll();
         response.json(allCurrencies);
     } catch (error) {
         response.status(500).json({ error: error.message });
@@ -55,7 +55,7 @@ currencyRouter.get('/', async(request, response) => {
 currencyRouter.get('/:id', async(request, response) => {
     try {
         const id = Number(request.params.id);
-        const currency = await Currency.findByPk(id);
+        const currency = await currencies.findByPk(id);
 
         if (!currency) throw new Error('Resource not found');
 
@@ -73,15 +73,15 @@ currencyRouter.get('/:id', async(request, response) => {
  */
 currencyRouter.post('/', async(request, response) => {
     try {
-        const { currencyCode, country, conversionRate } = request.body;
+        const { currencyCode, countryId, conversionRate } = request.body;
 
-        if (!currencyCode || !country || conversionRate === undefined) {
+        if (!currencyCode || !countryId || conversionRate === undefined) {
             throw new Error('Content missing');
         }
 
-        const newCurrency = await Currency.create({
+        const newCurrency = await currencies.create({
             currencyCode,
-            country,
+            countryId,
             conversionRate,
         });
 
@@ -107,7 +107,7 @@ currencyRouter.put('/:id/:newRate', async(request, response) => {
             throw new Error('Invalid new rate');
         }
 
-        const [updatedRowsCount, updatedCurrencies] = await Currency.update({ conversionRate: newRate }, { where: { id } });
+        const [updatedRowsCount, updatedCurrencies] = await currencies.update({ conversionRate: newRate }, { where: { id } });
 
         if (updatedRowsCount === 0) throw new Error('Resource not found');
 
@@ -125,7 +125,7 @@ currencyRouter.put('/:id/:newRate', async(request, response) => {
 currencyRouter.delete('/:id', async(request, response) => {
     try {
         const id = Number(request.params.id);
-        const deletedRowCount = await Currency.destroy({ where: { id } });
+        const deletedRowCount = await currencies.destroy({ where: { id } });
 
         if (deletedRowCount === 0) throw new Error('Resource not found');
 

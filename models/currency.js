@@ -2,7 +2,6 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/sequelize');
 const Country = require('./country');
 
-
 const Currencies = sequelize.define('Currencies', {
     id: {
         type: DataTypes.INTEGER,

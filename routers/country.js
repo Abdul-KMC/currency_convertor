@@ -17,15 +17,12 @@ countryRouter.get('/', async(request, response) => {
 countryRouter.post('/', async(request, response) => {
     try {
         const { name } = request.body;
-
         if (!name) {
             throw new Error('Content missing');
         }
-
         const newCountry = await Country.create({
             name,
         });
-
         response.status(201).json(newCountry);
     } catch (error) {
         response.status(400).json({ error: error.message });
@@ -37,9 +34,7 @@ countryRouter.delete('/:id', async(request, response) => {
     try {
         const id = Number(request.params.id);
         const deletedRowCount = await Country.destroy({ where: { id } });
-
         if (deletedRowCount === 0) throw new Error('Resource not found');
-
         response.status(204).json({ success: "Content deleted successfully" });
     } catch (error) {
         response.status(404).json({ error: error.message });

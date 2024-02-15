@@ -1,4 +1,4 @@
-GET http://localhost:3001/api/currency/
+GET http://localhost:3001/api/currency
 
 ###
 
@@ -6,13 +6,13 @@ GET http://localhost:3001/api/currency/2
 
 ###
 
-POST http://localhost:3001/api/currency/
+POST http://localhost:3001/api/currency
 Content-Type: application/json
 
 {
-    "currencyCode": "SAR",
-    "country": "SAUDI ARABIA",
-    "conversionRate": 2.78
+    "currencyCode": "USA",
+    "countryId": 2,
+    "conversionRate": 0.74
 }
 
 ###
@@ -21,4 +21,25 @@ PUT http://localhost:3001/api/currency/3/0.5
 
 ###
 
-DELETE http://localhost:3001/api/currency/2
+DELETE http://localhost:3001/api/currency/1
+
+###
+
+GET http://localhost:3001/api/country
+
+###
+
+POST http://localhost:3001/api/country
+Content-Type: application/json
+
+{
+    "name": "UAE"
+}
+
+###
+
+DELETE http://localhost:3001/api/country/1
+
+###
+
+GET http://localhost:3001/api/currency-countryName
