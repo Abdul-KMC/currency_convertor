@@ -23,11 +23,13 @@ app.use('/api/currency-countryName', currencyCountryRoute);
 app.use(middleware.unknownHandler)
 
 const PORT = 3001
-sequelize.sync().then(() => {
-    console.log("connected to DB")
-    app.listen(PORT, () => {
-        console.log(`Server running on port: ${PORT}`)
-    }).catch((error) => {
-        console.error(error);
-    })
-})
+try {
+    sequelize.sync().then(() => {
+        console.log("Connected to DB");
+        app.listen(PORT, () => {
+            console.log(`Server running on port: ${PORT}`);
+        });
+    });
+} catch (error) {
+    console.error(error);
+}
