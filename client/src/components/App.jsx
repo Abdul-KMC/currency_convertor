@@ -6,8 +6,8 @@ import Operations from './Operations';
 const App = () => {
   return (
     <div>
-      <Authentication />
-      {/* <Operations /> */}
+      {/* <Authentication /> */}
+      <Operations />
     </div>
   )
 }
