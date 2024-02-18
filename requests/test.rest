@@ -10,9 +10,9 @@ POST http://localhost:3001/api/currency
 Content-Type: application/json
 
 {
-    "currencyCode": "SAR",
-    "countryId": 3,
-    "conversionRate": 2.78
+    "currencyCode": "TRY",
+    "countryId": 10,
+    "conversionRate": 22.86
 }
 
 ###

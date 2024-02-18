@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import '../App.css'
 
 function AddCurrency() {
   const [formData, setFormData] = useState({
-    currencycode: '',
-    countryid: '',
-    conversionrate: ''
-  });
+    currencyCode: '',
+    countryId: 0,
+    conversionRate: 0.0
+  });  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -19,14 +20,21 @@ function AddCurrency() {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // Implement the adding curriency logic here
+    axios
+      .post('http://localhost:3001/api/currency', formData)
+      .then((response) => {
+        console.log('Currency successfully added:', response.data);
 
-    // Clear the form data after attempting conversion
-    setFormData({
-      currencycode: '',
-      countryid: '',
-      conversionrate: ''
-    });
+        // Clear the form data after attempting conversion
+        setFormData({
+          currencycode: '',
+          countryid: '',
+          conversionrate: ''
+        });
+
+        alert('Currency successfully added');
+      })
+      .catch((error) => console.error('Error adding currency:', error));
   };
 
   return (
@@ -37,9 +45,9 @@ function AddCurrency() {
           <label>Currency Code:</label>
           <input
             type="text"
-            name="currencycode"
+            name="currencyCode"
             placeholder="Currency Code"
-            value={formData.currencycode}
+            value={formData.currencyCode}
             onChange={handleInputChange}
             required
           />
@@ -49,9 +57,9 @@ function AddCurrency() {
           <label>Country ID:</label>
           <input
             type="number"
-            name="countryid"
+            name="countryId"
             placeholder="Country ID"
-            value={formData.countryid}
+            value={formData.countryId}
             onChange={handleInputChange}
             required
           />
@@ -61,9 +69,9 @@ function AddCurrency() {
           <label>Conversion Rate:</label>
           <input
             type="number"
-            name="conversionrate"
+            name="conversionRate"
             placeholder="Conversion Rate"
-            value={formData.conversionrate}
+            value={formData.conversionRate}
             onChange={handleInputChange}
             required
           />
