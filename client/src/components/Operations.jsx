@@ -13,7 +13,7 @@ function Operations(props) {
       <Convertor />
       <AddCurrency />
       <UpdateCurrency currencies={props.currencies} />
-      <Delete />
+      <Delete currencies={props.currencies} />
       <Footer />
     </div>
   )
