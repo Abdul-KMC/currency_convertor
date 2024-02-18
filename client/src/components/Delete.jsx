@@ -27,7 +27,7 @@ function Delete() {
 
   return (
     <div>
-      <h1 className="title">Update Currency</h1>
+      <h1 className="title">Delete Currency</h1>
       <form className='operationsForm' onSubmit={handleLogin}>
         <section className="inputField">
           <label>Currency Code:</label>
