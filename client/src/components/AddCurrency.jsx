@@ -17,7 +17,7 @@ function AddCurrency() {
     }));
   };
 
-  const handleLogin = (e) => {
+  const handleAddCurrency = (e) => {
     e.preventDefault();
 
     axios
@@ -25,7 +25,7 @@ function AddCurrency() {
       .then((response) => {
         console.log('Currency successfully added:', response.data);
 
-        // Clear the form data after attempting conversion
+        // Clear the form data after adding currency
         setFormData({
           currencycode: '',
           countryid: '',
@@ -40,7 +40,7 @@ function AddCurrency() {
   return (
     <div>
       <h1 className="title">Add Currency</h1>
-      <form className='operationsForm' onSubmit={handleLogin}>
+      <form className='operationsForm' onSubmit={handleAddCurrency}>
         <section className="inputField">
           <label>Currency Code:</label>
           <input

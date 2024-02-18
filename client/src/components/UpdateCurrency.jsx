@@ -1,36 +1,58 @@
 import React, { useState } from 'react';
-import '../App.css'
+import axios from 'axios';
+import '../App.css';
 
-function UpdateCurrency() {
+function UpdateCurrency(props) {
   const [formData, setFormData] = useState({
     currencycode: '',
-    newrate: ''
+    newrate: 0.0,
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const handleLogin = (e) => {
+  const handleUpdate = (e) => {
     e.preventDefault();
 
-    // Implement the currency updation logic here
+    const { currencycode, newrate } = formData;
 
-    // Clear the form data after attempting conversion
-    setFormData({
-      currencycode: '',
-      newrate: ''
-    });
+    // Find the currency object with the entered currency code
+    const currencyToUpdate = props.currencies.find(
+      (currency) => currency.currencyCode === currencycode
+    );
+
+    // Check if the currency object is found
+    if (currencyToUpdate) {
+      const { id } = currencyToUpdate;
+
+      axios
+        .put(`http://localhost:3001/api/currency/${id}/${newrate}`)
+        .then((response) => {
+          console.log('Currency successfully updated:', response.data);
+
+          // Clear the form data after updating conversion rate
+          setFormData({
+            currencycode: '',
+            newrate: 0.0,
+          });
+
+          alert('Currency successfully updated');
+        })
+        .catch((error) => console.error('Error updating currency:', error));
+    } else {
+      alert('Currency not found');
+    }
   };
 
   return (
     <div>
       <h1 className="title">Update Currency</h1>
-      <form className='operationsForm' onSubmit={handleLogin}>
+      <form className="operationsForm" onSubmit={handleUpdate}>
         <section className="inputField">
           <label>Currency Code:</label>
           <input
@@ -54,13 +76,15 @@ function UpdateCurrency() {
             required
           />
         </section>
-        
+
         <div className="buttons">
-          <button className="updateButton" type="submit">Update</button>
+          <button className="updateButton" type="submit">
+            Update
+          </button>
         </div>
       </form>
     </div>
-  )
+  );
 }
 
-export default UpdateCurrency
+export default UpdateCurrency;

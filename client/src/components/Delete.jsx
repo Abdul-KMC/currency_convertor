@@ -14,7 +14,7 @@ function Delete() {
     }));
   };
 
-  const handleLogin = (e) => {
+  const handleDelete = (e) => {
     e.preventDefault();
 
     // Implement the curriency deletion logic here
@@ -28,7 +28,7 @@ function Delete() {
   return (
     <div>
       <h1 className="title">Delete Currency</h1>
-      <form className='operationsForm' onSubmit={handleLogin}>
+      <form className='operationsForm' onSubmit={handleDelete}>
         <section className="inputField">
           <label>Currency Code:</label>
           <input

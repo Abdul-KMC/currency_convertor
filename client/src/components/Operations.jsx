@@ -6,13 +6,13 @@ import UpdateCurrency from './UpdateCurrency';
 import Delete from './Delete';
 import Footer from './Footer';
 
-function Operations() {
+function Operations(props) {
   return (
     <div>
       <Header />
       <Convertor />
       <AddCurrency />
-      <UpdateCurrency />
+      <UpdateCurrency currencies={props.currencies} />
       <Delete />
       <Footer />
     </div>
