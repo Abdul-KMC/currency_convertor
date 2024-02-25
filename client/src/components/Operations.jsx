@@ -10,7 +10,7 @@ function Operations(props) {
   return (
     <div>
       <Header />
-      <Convertor />
+      <Convertor currencies={props.currencies} />
       <AddCurrency />
       <UpdateCurrency currencies={props.currencies} />
       <Delete currencies={props.currencies} />

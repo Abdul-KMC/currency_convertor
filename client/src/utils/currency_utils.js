@@ -10,8 +10,25 @@
  * @returns an integer
  */
 const convertCurrency = (currencyA, currencyB, amount) => {
-  // This needs to be implemented
-  return 1
+
+    // CDN to CDN conversion
+    if (currencyA === currencyB) {
+        console.log(currencyA.conversionRate)
+        return amount;
+    }
+    // CDN to non-CDN conversion
+    else if (currencyA.currencyCode === 'CAD' && currencyB.currencyCode !== 'CAD') {
+        return Math.round(amount * currencyB.conversionRate);
+    }
+    // non-CDN to CDN conversion
+    else if (currencyA.currencyCode !== 'CAD' && currencyB.currencyCode === 'CAD') {
+        return Math.round(amount / currencyA.conversionRate);
+    }
+    // non-CDN to non-CDN
+    else {
+        let cadCurr = amount / currencyA.conversionRate;
+        return Math.round(cadCurr * currencyB.conversionRate);
+    }
 }
 
-module.exports = convertCurrency
+export { convertCurrency };
