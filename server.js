@@ -5,7 +5,8 @@ const countryRouter = require('./routers/country')
 const currencyCountryRoute = require('./routers/currencyCountry')
 const middleware = require('./utils/middleware')
 const sequelize = require('./config/sequelize')
-const cors = require('cors')
+const cors = require('cors');
+const { Model } = require('sequelize');
 const app = express()
     /**
      * Initial application setup
@@ -26,10 +27,12 @@ const PORT = 3001
 try {
     sequelize.sync().then(() => {
         console.log("Connected to DB");
-        app.listen(PORT, () => {
+        app.listen(PORT, () => { // const server = app.listen()
             console.log(`Server running on port: ${PORT}`);
         });
     });
 } catch (error) {
     console.error(error);
 }
+
+// module.exports = server;
