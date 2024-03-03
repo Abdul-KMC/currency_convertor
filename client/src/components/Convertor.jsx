@@ -8,6 +8,7 @@ function Convertor(props) {
     currencyto: '',
     amount: 0.0
   });
+  const [conversionResult, setConversionResult] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -28,9 +29,9 @@ function Convertor(props) {
     if (fromCurrencyObj && toCurrencyObj) {
       const result = convertCurrency(fromCurrencyObj, toCurrencyObj, amount);
 
-      alert(`${amount} ${currencyfrom} is ${result.toFixed(2)} ${currencyto}`);
+      setConversionResult(`${amount} ${currencyfrom} is ${result.toFixed(2)} ${currencyto}`);
     } else {
-      alert('Invalid currency codes');
+      setConversionResult('Invalid currency codes');
     }
 
     // Clear the form data after attempting conversion
@@ -91,6 +92,9 @@ function Convertor(props) {
           <button className="convertButton" type="submit">Convert</button>
         </div>
       </form>
+      <span>
+        <p className='conversion_text'>{conversionResult}</p>
+      </span>
     </div>
   );
 }

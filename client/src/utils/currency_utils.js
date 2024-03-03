@@ -31,4 +31,5 @@ const convertCurrency = (currencyA, currencyB, amount) => {
     }
 }
 
+// export { convertCurrency };
 module.exports = convertCurrency
