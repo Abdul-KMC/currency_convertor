@@ -17,13 +17,9 @@
  * Necessary import:
  */
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-/**
- * Import all the related component(s) here:
- * 
- * 
- */
+import Convertor from "../components/Convertor";
 
 /**
  * we will test the conversion section that contains: currency code & amount input fields, 
@@ -35,11 +31,31 @@ import userEvent from "@testing-library/user-event";
 
 
 test('Testing conversion section', () => {
-    // convertCurrency is a mock function now
-    const convertCurrency = jest.fn();
-    const user = userEvent.setup();
+            // convertCurrency is a mock function now
+            const convertCurrency = jest.fn();
+            const currencies = [
+                { id: 1, currencyCode: 'CAD' },
+                { id: 2, currencyCode: 'USD' },
+            ];
+            const user = userEvent.setup();
 
-    // Your code here
-});
+            render( < Convertor currencies = { currencies }
+                convertCurrency = { convertCurrency }
+                />);
+                const currencyFromInput = screen.getByTestId("currencyFrom");
+                const currencyToInput = screen.getByTestId("currencyTo");
+                const amountInput = screen.getByTestId("amount");
+                const convertButton = screen.getByRole('button', { name: "Convert" });
+                const conversionText = screen.getByText("conversion result text");
 
+                fireEvent.change(currencyFromInput, { target: { value: 'CAD' } }); //
+                fireEvent.change(currencyToInput, { target: { value: 'USD' } }); //
+                fireEvent.change(amountInput, { target: { value: 100 } }); //
+                userEvent.click(convertButton);
 
+                expect(currencyFromInput.value).toBe("CAD"); //
+                expect(currencyToInput.value).toBe("USD"); //
+                expect(amountInput.value).toBe('100'); //
+                expect(convertCurrency.mock.calls).toHaveLength(0); //
+                expect(conversionText).toBeInTheDocument();
+            });

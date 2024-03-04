@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { convertCurrency } from '../utils/currency_utils';
-import '../App.css';
+// import '../App.css';
 
 function Convertor(props) {
   const [formData, setFormData] = useState({
@@ -8,7 +8,7 @@ function Convertor(props) {
     currencyto: '',
     amount: 0.0
   });
-  const [conversionResult, setConversionResult] = useState('');
+  const [conversionResult, setConversionResult] = useState('conversion result text');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -49,6 +49,7 @@ function Convertor(props) {
         <section className="inputField">
           <label>Currency From:</label>
           <select
+            data-testid="currencyFrom"
             name="currencyfrom"
             value={formData.currencyfrom}
             onChange={handleInputChange}
@@ -64,6 +65,7 @@ function Convertor(props) {
         <section className="inputField">
           <label>Currency To:</label>
           <select
+            data-testid="currencyTo"
             name="currencyto"
             value={formData.currencyto}
             onChange={handleInputChange}
@@ -79,6 +81,7 @@ function Convertor(props) {
         <section className="inputField">
           <label>Amount:</label>
           <input
+            data-testid="amount"
             type="number"
             name="amount"
             placeholder="Amount"
