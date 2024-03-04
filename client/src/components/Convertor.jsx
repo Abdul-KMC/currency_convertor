@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { convertCurrency } from '../utils/currency_utils';
-import '../App.css';
+// import '../App.css';
 
 function Convertor(props) {
   const [formData, setFormData] = useState({
@@ -8,6 +8,7 @@ function Convertor(props) {
     currencyto: '',
     amount: 0.0
   });
+  const [conversionResult, setConversionResult] = useState('conversion result text');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -28,9 +29,9 @@ function Convertor(props) {
     if (fromCurrencyObj && toCurrencyObj) {
       const result = convertCurrency(fromCurrencyObj, toCurrencyObj, amount);
 
-      alert(`${amount} ${currencyfrom} is ${result.toFixed(2)} ${currencyto}`);
+      setConversionResult(`${amount} ${currencyfrom} is ${result.toFixed(2)} ${currencyto}`);
     } else {
-      alert('Invalid currency codes');
+      setConversionResult('Invalid currency codes');
     }
 
     // Clear the form data after attempting conversion
@@ -48,6 +49,7 @@ function Convertor(props) {
         <section className="inputField">
           <label>Currency From:</label>
           <select
+            data-testid="currencyFrom"
             name="currencyfrom"
             value={formData.currencyfrom}
             onChange={handleInputChange}
@@ -63,6 +65,7 @@ function Convertor(props) {
         <section className="inputField">
           <label>Currency To:</label>
           <select
+            data-testid="currencyTo"
             name="currencyto"
             value={formData.currencyto}
             onChange={handleInputChange}
@@ -78,6 +81,7 @@ function Convertor(props) {
         <section className="inputField">
           <label>Amount:</label>
           <input
+            data-testid="amount"
             type="number"
             name="amount"
             placeholder="Amount"
@@ -91,6 +95,9 @@ function Convertor(props) {
           <button className="convertButton" type="submit">Convert</button>
         </div>
       </form>
+      <span>
+        <p className='conversion_text'>{conversionResult}</p>
+      </span>
     </div>
   );
 }
