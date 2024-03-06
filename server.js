@@ -27,12 +27,11 @@ const PORT = 3001
 try {
     sequelize.sync().then(() => {
         console.log("Connected to DB");
-        app.listen(PORT, () => { // const server = app.listen()
+        const server = app.listen(PORT, () => {
             console.log(`Server running on port: ${PORT}`);
         });
+        module.exports = server;
     });
 } catch (error) {
     console.error(error);
 }
-
-// module.exports = server;
