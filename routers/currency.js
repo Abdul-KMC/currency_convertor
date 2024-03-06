@@ -1,5 +1,6 @@
 const currencyRouter = require('express').Router()
-const currencies = require('../models/currency');
+    // const currencies = require('../models/currency');
+const currencies = process.env.NODE_ENV === "test" ? require('../models/testCurrency') : require('../models/currency')
 
 /**
  * DATA STORAGE

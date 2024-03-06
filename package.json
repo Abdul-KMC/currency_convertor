@@ -4,8 +4,11 @@
     "description": "Package manager for the first Assignment in the Mini Project Roadmap",
     "main": "server.js",
     "scripts": {
-        "start": "node server.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "devServer": "cross-env NODE_ENV=development nodemon server.js",
+        "testServer": "cross-env NODE_ENV=test nodemon server.js",
+        "initData": "cross-env NODE_ENV=development node config/initData",
+        "testInitData": "cross-env NODE_ENV=test node config/initData",
+        "test": "cross-env NODE_ENV=test jest --verbose -runInBand"
     },
     "author": "Student",
     "license": "ISC",

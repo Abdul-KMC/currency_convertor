@@ -30,9 +30,8 @@ try {
         const server = app.listen(PORT, () => {
             console.log(`Server running on port: ${PORT}`);
         });
+        module.exports = server;
     });
 } catch (error) {
     console.error(error);
 }
-
-module.exports = server;
