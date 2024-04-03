@@ -10,18 +10,18 @@ POST http://localhost:3001/api/currency
 Content-Type: application/json
 
 {
-    "currencyCode": "TRY",
-    "countryId": 10,
-    "conversionRate": 22.86
+    "currencyCode": "CAD",
+    "countryId": 1,
+    "conversionRate": 1
 }
 
 ###
 
-PUT http://localhost:3001/api/currency/16/2.62
+PUT http://localhost:3001/api/currency/3/2.62
 
 ###
 
-DELETE http://localhost:3001/api/currency/4
+DELETE http://localhost:3001/api/currency/29
 
 ###
 

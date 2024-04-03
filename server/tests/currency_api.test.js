@@ -1,6 +1,3 @@
-/**
- * Necessary imports, make sure you have these packages installed in your server directory
- */
 const supertest = require('supertest')
 const sequelize = require('../config/sequelize') // Provide a path to your config.js or database.js file, wherever you export that sequelize
 const helper = require('./test_helper')
@@ -16,6 +13,12 @@ beforeEach(async() => {
     await helper.load()
 })
 
+describe('Dummy Test Case', () => {
+    test('Dummy test case to prevent timeout', async() => {
+        await new Promise(resolve => setTimeout(resolve, 5000)); // Adjust timeout as needed
+    });
+});
+
 describe('GET tests', () => {
     /**
      * Completed:
@@ -23,7 +26,10 @@ describe('GET tests', () => {
      * we added the two blogs in the 'beforeEach' setup phase
      */
     test('we have 2 currencies at the start', async() => {
-        const response = await api.get('/api/currencies')
+        console.log("we're inside GET request.....");
+        const initialSize = (await helper.currenciesInDb()).length
+        console.log("the size of table is: " + initialSize);
+        const response = await api.get('/api/currency')
         expect(response.body).toHaveLength(2)
     })
 
@@ -41,7 +47,7 @@ describe('GET tests', () => {
 
         // Verify that we get the same currency
         const response = await api
-            .get(`/api/currencies/${getId}`)
+            .get(`/api/currency/${getId}`)
             .expect(200)
 
         // As stated above, we will compare the conversionRate and currencyCode
@@ -60,23 +66,38 @@ describe('GET tests', () => {
  */
 
 describe('POST tests', () => {
-    // Add a currency, and verify that a currency is added to our database
-    test('adding a currency', () => {
-
-    })
+    // Add a currency, and verify that a currency is added to our database ()
+    test('adding a currency', async() => {
+        const newCurrency = {
+            currencyCode: 'USD',
+            countryId: 1,
+            conversionRate: 0.75,
+        };
+        const response = await api.post('/api/currency')
+            .send(newCurrency);
+        expect(response.status).toBe(201);
+        expect(response.body.currencyCode).toEqual(newCurrency.currencyCode);
+    });
 })
 
 describe('PUT tests', () => {
     // Update a currency, and verify that a currency has been updated
-    test('updating a currency', () => {
-
-    })
+    test('updating a currency', async() => {
+        const newRate = 0.70;
+        const updateCurr = helper.initialCurrencies[1];
+        const id = updateCurr.id;
+        const response = await api.put(`/api/currency/${id}/${newRate}`)
+        expect(response.status).toBe(200); // Change to 200 for success
+        expect(response.body.conversionRate).toEqual(newRate);
+    });
 })
 
 describe('DELETE tests', () => {
     // Delete a currency, and verify that a currency has been deleted
-    test('removing a currency', () => {
-
+    test('removing a currency', async() => {
+        const delCurr = helper.initialCurrencies[1];
+        const id = delCurr.id;
+        await api.delete(`/api/currency/${id}`).expect(204)
     })
 })
 

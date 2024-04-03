@@ -12,10 +12,6 @@ const testCurrency = sequelize.define('testCurrency', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    countryId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
     conversionRate: {
         type: DataTypes.FLOAT,
         allowNull: false
@@ -24,7 +20,6 @@ const testCurrency = sequelize.define('testCurrency', {
     sequelize,
     underscored: false,
     timestamps: false,
-    // modelName: 'testCurrencies'
 });
 
 module.exports = testCurrency;
