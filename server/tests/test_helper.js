@@ -30,39 +30,21 @@ const currenciesInDb = async() => {
 
 // Initialize table
 const init = async() => {
-    try {
-        await Currency.sync()
-        console.log("init sucess ")
-    } catch {
-        console.log("error init");
-    }
-
+    await Currency.sync()
 };
 
 // Perform a bulk write
 const load = async() => {
-    try {
-        await Currency.bulkCreate(initialCurrencies)
-        console.log("load success");
-    } catch {
-        console.log("error in load");
-    }
-
+    await Currency.bulkCreate(initialCurrencies)
 }
 
 
 // Clears all test tables in the database
 const clearData = async() => {
-    try {
-        await Currency.destroy({
-            where: {},
-            truncate: true
-        })
-        console.log("clearData success");
-    } catch {
-        console.log("error in clearData");
-    }
-
+    await Currency.destroy({
+        where: {},
+        truncate: true
+    })
 }
 
 module.exports = {

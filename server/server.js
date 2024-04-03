@@ -8,11 +8,7 @@ const sequelize = require('./config/sequelize')
 const cors = require('cors');
 const { Model } = require('sequelize');
 const app = express()
-    /**
-     * Initial application setup
-     * We need to use cors so we can connect to a localhost later
-     * We need express.json so we can receive requests with JSON data attached
-     */
+
 app.use(cors())
 app.use(express.json())
 app.use(middleware.morganMiddleware);

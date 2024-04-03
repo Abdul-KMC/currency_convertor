@@ -20,7 +20,6 @@ const testCurrency = sequelize.define('testCurrency', {
     sequelize,
     underscored: false,
     timestamps: false,
-    // modelName: 'testCurrencies'
 });
 
 module.exports = testCurrency;

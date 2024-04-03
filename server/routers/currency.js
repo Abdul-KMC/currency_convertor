@@ -3,36 +3,13 @@ const currencyRouter = require('express').Router()
 const currencies = process.env.NODE_ENV === "test" ? require('../models/testCurrency') : require('../models/currency')
 
 /**
- * DATA STORAGE
- * We're using a local variable 'currencies' to store our data: a list of currency objects
- * Each object represents a 'currency', and contains the following fields
- * id: a number, 
- * currencyCode: a string, three letters (see https://www.iban.com/currency-codes as reference)
- * country: a string, the name of the country
- * conversionRate: the amount, in that currency, required to equal 1 Canadian dollar
- */
-// let currencies = [{
-//         id: 1,
-//         currencyCode: "CDN",
-//         country: "Canada",
-//         conversionRate: 1
-//     },
-//     {
-//         id: 2,
-//         currencyCode: "USD",
-//         country: "United States of America",
-//         conversionRate: 0.75
-//     }
-// ]
-
-/**
  * TESTING Endpoint (Completed)
  * @receives a get request to the URL: http://localhost:3001/
  * @responds with the string 'Hello World!'
  */
-// currencyRouter.get('/', (request, response) => {
-//     response.send('Hello World!')
-// })
+currencyRouter.get('/', (request, response) => {
+    response.send('Hello World!')
+})
 
 /**
  * TODO: GET Endpoint
