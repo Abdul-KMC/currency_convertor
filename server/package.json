@@ -5,6 +5,8 @@
     "main": "server.js",
     "scripts": {
         "devServer": "cross-env NODE_ENV=development nodemon server.js",
+        "build:ui": "rm -rf dist && cd ../client && npm run build && cp -r dist ../server && rm -rf dist",
+        "push:full": "npm run build:ui && cd ../server && git add . && git commit -m 'build' && git push",
         "testServer": "cross-env NODE_ENV=test nodemon server.js",
         "initData": "cross-env NODE_ENV=development node config/initData",
         "testInitData": "cross-env NODE_ENV=test node config/initData",
