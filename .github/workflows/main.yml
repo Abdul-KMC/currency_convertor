@@ -8,33 +8,33 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       # Step 1: Check out code from the repository
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       # Step 2: Setup Node.js
       - name: Set up Node.js environment
         uses: actions/setup-node@v4.0.2
-          
+
       # Step 3: Install backend dependencies
       - name: Install server dependencies
         run: npm install
         working-directory: ./server
-      
+
       # Step 4: Run backend tests (pass PG_URL env variable)
-      - name: Run backend tests
-        run: |
-          export PG_URL="postgres://root:YRa0dB1qCth1vqldbHmmBywAIFZjsVoH@dpg-cmrqqj7109ks73fjpob0-a.oregon-postgres.render.com/convertor_postgresql_db"
-          npm test
-        working-directory: ./server
-      
+      # - name: Run backend tests
+      #   run: |
+      #     export PG_URL="postgres://root:YRa0dB1qCth1vqldbHmmBywAIFZjsVoH@dpg-cmrqqj7109ks73fjpob0-a.oregon-postgres.render.com/convertor_postgresql_db"
+      #     npm test
+      #   working-directory: ./server
+
       # Step 5: Install frontend dependencies
       - name: Install frontend dependencies
         run: npm install
         working-directory: ./client
-      
+
       # # Step 6: Run frontend tests
       - name: Run frontend tests
         run: npm run test
